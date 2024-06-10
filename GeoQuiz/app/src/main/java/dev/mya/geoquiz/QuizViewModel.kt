@@ -26,6 +26,8 @@ class QuizViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel(
         set(value) = savedStateHandle.set(CURRENT_INDEX_KEY, value)
 
     var score = 0
+    var cheatTokens = 3
+    var isButtonClicked = false
 
     val currentQuestionAnswer: Boolean
         get() = questionBank[currentIndex].answer

@@ -39,7 +39,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/previous_button"
@@ -60,13 +60,17 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/cheat_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/cheat_button"
         android:layout_marginTop="24dp"
-        android:text="@string/cheat_button"/>
+        android:text="@string/cheat_button" />
 
-
+    <TextView
+        android:id="@+id/cheat_tokens_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Remaining Tokens" />
 
 
 </LinearLayout>

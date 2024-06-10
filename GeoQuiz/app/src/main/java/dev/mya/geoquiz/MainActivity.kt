@@ -2,6 +2,9 @@ package dev.mya.geoquiz
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.RenderEffect
+import android.graphics.Shader
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -12,6 +15,7 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import dev.mya.geoquiz.databinding.ActivityMainBinding
@@ -31,7 +35,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private var isButtonClicked = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +46,7 @@ class MainActivity : AppCompatActivity() {
             binding.trueButton.visibility = GONE
             binding.falseButton.visibility = GONE
             binding.cheatButton.visibility = GONE
-            isButtonClicked = true
+            quizViewModel.isButtonClicked = true
             checkAnswer(true)
         }
 
@@ -51,14 +54,14 @@ class MainActivity : AppCompatActivity() {
             binding.trueButton.visibility = GONE
             binding.falseButton.visibility = GONE
             binding.cheatButton.visibility = GONE
-            isButtonClicked = true
+            quizViewModel.isButtonClicked = true
             checkAnswer(false)
 
         }
 
         binding.nextButton.setOnClickListener {
             quizViewModel.moveToNext()
-            isButtonClicked = false
+            quizViewModel.isButtonClicked = false
             updateQuestion()
             binding.trueButton.visibility = VISIBLE
             binding.falseButton.visibility = VISIBLE
@@ -68,7 +71,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.questionTextView.setOnClickListener {
             quizViewModel.moveToNext()
-            isButtonClicked = false
+            quizViewModel.isButtonClicked = false
             updateQuestion()
             binding.trueButton.visibility = VISIBLE
             binding.falseButton.visibility = VISIBLE
@@ -88,17 +91,37 @@ class MainActivity : AppCompatActivity() {
             val answerIsTrue = quizViewModel.currentQuestionAnswer
             val intent = CheatActivity.newIntent(this@MainActivity, answerIsTrue)
             cheatLauncher.launch(intent)
+            quizViewModel.cheatTokens--
+            updateRemainingTokens()
         }
+
+        binding.cheatTokensText.setText("Tokens: ${quizViewModel.cheatTokens}")
+
         updateQuestion()
+
         isCheater()
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            blurCheatButton()
+        }
     }
 
     private fun updateQuestion() {
         val questionTextResId = quizViewModel.currentQuestionText
         binding.questionTextView.setText(questionTextResId)
+
         if (quizViewModel.currentIndex == quizViewModel.getQuestionBankSize() - 1) {
             binding.nextButton.visibility = GONE
         }
+    }
+
+    private fun updateRemainingTokens() {
+        if (quizViewModel.cheatTokens == 0) {
+            binding.cheatButton.visibility = GONE
+            binding.cheatTokensText.visibility = GONE
+        }
+        val remainingTokens = "Tokens: ${quizViewModel.cheatTokens}"
+        binding.cheatTokensText.setText(remainingTokens)
     }
 
     private fun isCheater() {
@@ -121,7 +144,7 @@ class MainActivity : AppCompatActivity() {
         if (userAnswer == correctAnswer) {
             quizViewModel.score++
         }
-        if (quizViewModel.currentIndex == quizViewModel.getQuestionBankSize() - 1 && isButtonClicked) {
+        if (quizViewModel.currentIndex == quizViewModel.getQuestionBankSize() - 1 && quizViewModel.isButtonClicked) {
             showScore()
         }
         quizViewModel.isCheater = false
@@ -133,6 +156,12 @@ class MainActivity : AppCompatActivity() {
             "Your total score: ${quizViewModel.getQuestionBankSize()} / ${quizViewModel.score}",
             Toast.LENGTH_SHORT
         ).show()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.S)
+    private fun blurCheatButton() {
+        val effect = RenderEffect.createBlurEffect(10.0f, 10.0f, Shader.TileMode.CLAMP)
+        binding.cheatButton.setRenderEffect(effect)
     }
 }
 
