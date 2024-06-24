@@ -58,9 +58,9 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.kotlinx.coroutines.core)
 
-    implementation (libs.androidx.room.runtime.v242)
-    implementation (libs.androidx.room.ktx.v242)
-    kapt (libs.androidx.room.compiler.v242)
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    kapt("androidx.room:room-compiler:2.6.1")
 
 
 }

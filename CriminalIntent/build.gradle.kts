@@ -2,5 +2,5 @@
 plugins {
     alias(libs.plugins.androidApplication) apply false
     alias(libs.plugins.jetbrainsKotlinAndroid) apply false
-    kotlin("kapt") version "1.6.10" apply false
+    kotlin("kapt") version "2.0.0" apply false
 }
