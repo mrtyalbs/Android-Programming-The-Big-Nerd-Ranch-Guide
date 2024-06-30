@@ -13,6 +13,7 @@ lifecycleViewmodelKtx = "2.8.2"
 material = "1.12.0"
 activity = "1.8.0"
 constraintlayout = "2.1.4"
+navigationFragmentKtx = "2.7.7"
 recyclerview = "1.3.2"
 roomCompiler = "2.6.1"
 roomCompilerVersion = "2.4.2"
@@ -24,6 +25,8 @@ androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = 
 androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragmentKtx" }
 androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycleViewmodelKtx" }
 androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
+androidx-navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigationFragmentKtx" }
+androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigationFragmentKtx" }
 androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerview" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomCompiler" }
 androidx-room-compiler-v242 = { module = "androidx.room:room-compiler", version.ref = "roomCompilerVersion" }
