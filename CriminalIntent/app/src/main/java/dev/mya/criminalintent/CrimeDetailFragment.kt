@@ -6,14 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import dev.mya.criminalintent.databinding.FragmentCrimeDetailBinding
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import java.io.Serializable
 import java.util.Date
 import java.util.UUID
 
@@ -49,9 +52,7 @@ class CrimeDetailFragment : Fragment() {
                     oldCrime.copy(title = text.toString())
                 }
             }
-            crimeDate.apply {
-                isEnabled = false
-            }
+
             crimeSolved.setOnCheckedChangeListener { _, isChecked ->
                 crimeDetailViewModel.updateCrime { oldCrime ->
                     oldCrime.copy(isSolved = isChecked)
@@ -66,6 +67,13 @@ class CrimeDetailFragment : Fragment() {
                 }
             }
         }
+
+        setFragmentResultListener(
+            DatePickerFragment.REQUEST_KEY_DATE
+        ) { _, bundle ->
+            val newDate = bundle.getSerializable(DatePickerFragment.BUNDLE_KEY_DATE) as Date
+            crimeDetailViewModel.updateCrime { it.copy(date = newDate) }
+        }
     }
 
     override fun onDestroy() {
@@ -79,6 +87,11 @@ class CrimeDetailFragment : Fragment() {
                 crimeTitle.setText(crime.title)
             }
             crimeDate.text = crime.date.toString()
+            crimeDate.setOnClickListener {
+                findNavController().navigate(
+                    CrimeDetailFragmentDirections.selectDate(crime.date)
+                )
+            }
             crimeSolved.isChecked = crime.isSolved
         }
     }
