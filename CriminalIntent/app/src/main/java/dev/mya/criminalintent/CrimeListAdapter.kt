@@ -8,6 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.mya.criminalintent.databinding.ListItemCrimeBinding
 import java.util.UUID
 
+const val TYPE_ITEM = 0
+const val TYPE_PLACEHOLDER = 1
+
 class CrimeHolder(private val binding: ListItemCrimeBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
@@ -27,8 +30,13 @@ class CrimeHolder(private val binding: ListItemCrimeBinding) :
     }
 }
 
-class CrimeListAdapter(private val crimes: List<Crime>, private val onCrimeClicked: (crimeID: UUID) -> Unit) :
+
+class CrimeListAdapter(
+    private val crimes: List<Crime>,
+    private val onCrimeClicked: (crimeID: UUID) -> Unit
+) :
     RecyclerView.Adapter<CrimeHolder>() {
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CrimeHolder {
         val inflater = LayoutInflater.from(parent.context)
