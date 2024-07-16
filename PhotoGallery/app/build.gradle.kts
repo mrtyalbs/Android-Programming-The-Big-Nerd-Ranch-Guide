@@ -57,4 +57,11 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.ktx)
     // RecyclerView
     implementation(libs.androidx.recyclerview)
+    // Retrofit
+    implementation (libs.retrofit)
+    // OkHttp
+    implementation(libs.okhttp)
+    //Coroutines
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.coroutines.core)
 }
